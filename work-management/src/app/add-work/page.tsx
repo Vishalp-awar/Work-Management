@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
-
+import addtask from "../../../public/addtask.svg"
+import Image from "next/image";
 const AddTask = () => {
   const [task, setTask] = useState({
     title: "",
@@ -10,9 +11,18 @@ const AddTask = () => {
   });
 
   return (
-    <div className="grid place-items-center min-h-screen text-black bg-gray-100">
+    <div className="grid place-items-center min-h-screen text-black bg-gray-100 " >
       <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6">
         <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">
+        <div className="my-8 flex justify-center">
+          <Image
+            src={addtask}
+            style={{
+              width: "40%",
+            }}
+            alt="Login banner"
+          />
+        </div>
           Add Your Task
         </h1>
 

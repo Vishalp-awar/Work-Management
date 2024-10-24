@@ -5,6 +5,8 @@ import { User } from "@/models/user";
 export async function GET(request:NextRequest){
 
     const name = request.nextUrl.searchParams.get('name'); 
+    const email=request.nextUrl.searchParams.getAll('email');
+    const password=request.nextUrl.searchParams.getAll('password');
 
         if(name){
             try{
@@ -19,10 +21,10 @@ export async function GET(request:NextRequest){
                 console.log(error);
             }
         }else{
+            
+            const data = await User.find();
 
-             const data = await User.find();
-
-             return NextResponse.json(data);
+            return NextResponse.json(data);
         }
 
 }

@@ -149,19 +149,19 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // response.cookies.set("authTone", token, {
-    //   sameSite: "lax",
-    //   httpOnly: true,
-    //   path: '/', // Ensure the cookie is accessible throughout the site
-    //   expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day expiration
-    // });
-
     response.cookies.set("authTone", token, {
-       path: '/',
-        sameSite: 'Lax',
-        path: '/', // Ensure the cookie is accessible throughout the site
+      sameSite: 'lax',
+      httpOnly: true,
+      path: '/', // Ensure the cookie is accessible throughout the site
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day expiration
-       });
+    });
+
+    // response.cookies.set('authTone', token, {
+    //    path: '/',
+    //     sameSite: 'Lax',
+    //     path: '/', // Ensure the cookie is accessible throughout the site
+    //   expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day expiration
+    //    });
     // In your login function
 console.log('Setting cookie authTone with value:', response.cookies); // Check what you are setting
 

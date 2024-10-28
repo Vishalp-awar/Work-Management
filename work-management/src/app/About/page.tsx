@@ -1,6 +1,5 @@
 
 const About =() =>{
-    throw new Error("this is new error")
     return (
         <>
             <h1>

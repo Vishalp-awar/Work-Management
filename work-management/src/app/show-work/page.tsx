@@ -347,7 +347,8 @@ const Task = () => {
       const response = await fetch(`/api/work/${taskId}`, { method: 'DELETE' });
       if (response.ok) {
         setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
-        toast.success(`Deleted task with Title: ${tasks || ''}`); // Show success toast
+      
+        toast.success(`Deleted task`); // Show success toast
       } else {
         console.error("Failed to delete task");
         toast.error("Failed to delete task"); // Show error toast

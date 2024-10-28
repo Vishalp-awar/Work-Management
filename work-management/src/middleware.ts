@@ -79,31 +79,64 @@
 // // //   ],
 // // // };
 
+// import { NextResponse } from 'next/server';
+// import type { NextRequest } from 'next/server';
+
+// export function middleware(request: NextRequest) {
+  
+//   // Get the token from the cookies
+//   const authtoken = request.cookies.get("authTone")?.value;
+ 
+
+//   // Paths where logged-in users should not have access
+//   const loggedInUserNotAccessPathLogin = request.nextUrl.pathname === "/login"
+
+//   const loggedInUserNotAccessPathSignup = request.nextUrl.pathname === "/signup"
+//   // If the user is logged in and tries to access login/signup, redirect them to the home page
+//   if (authtoken) {
+//     return NextResponse.redirect(new URL("/", request.nextUrl.origin)); // Added origin here
+//   }else if((loggedInUserNotAccessPathSignup  || loggedInUserNotAccessPathLogin) && authtoken){
+//     return NextResponse.redirect(new URL("/", request.nextUrl.origin)); // Added origin here
+//   }
+//   // If the user is not logged in and trying to access restricted pages, redirect to login
+//   if (!authtoken && (request.nextUrl.pathname === "/add-work" || request.nextUrl.pathname === "/" || request.nextUrl.pathname === "/show-work")) {
+//     return NextResponse.redirect(new URL("/login", request.nextUrl.origin)); // Added origin here
+//   }
+
+//   return NextResponse.next();
+// }
+
+// export const config = {
+//   matcher: ['/add-work','/show-work', '/signup'],
+// };
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  
-  // Get the token from the cookies
-  const authtoken = request.cookies.get("authTone")?.value;
- 
+  // Get the token from the cookies in the NextRequest
+  const authToken = request.cookies.get('authTone')?.value;
 
-  // Paths where logged-in users should not have access
-  const loggedInUserNotAccessPath = request.nextUrl.pathname === "/login" || request.nextUrl.pathname === "/signup";
+  // Paths where logged-in users should not have access (login and signup)
+  const loggedInUserRestrictedPaths = ['/login', '/signup'];
+  const isRestrictedPath = loggedInUserRestrictedPaths.includes(request.nextUrl.pathname);
 
   // If the user is logged in and tries to access login/signup, redirect them to the home page
-  if (loggedInUserNotAccessPath && authtoken) {
-    return NextResponse.redirect(new URL("/", request.nextUrl.origin)); // Added origin here
+  if (authToken && isRestrictedPath) {
+    return NextResponse.redirect(new URL("/", request.nextUrl.origin));
   }
 
-  // If the user is not logged in and trying to access restricted pages, redirect to login
-  if (!authtoken && (request.nextUrl.pathname === "/add-work" || request.nextUrl.pathname === "/" || request.nextUrl.pathname === "/show-work")) {
-    return NextResponse.redirect(new URL("/login", request.nextUrl.origin)); // Added origin here
+  // Paths where guests (not logged-in users) should not have access
+  const restrictedPagesForGuests = ['/add-work', '/show-work', '/', '/show-work'];
+  const isRestrictedPageForGuest = restrictedPagesForGuests.includes(request.nextUrl.pathname);
+
+  // If the user is not logged in and tries to access restricted pages, redirect to login
+  if (!authToken && isRestrictedPageForGuest) {
+    return NextResponse.redirect(new URL("/login", request.nextUrl.origin));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/add-work','/show-work', '/signup'],
+  matcher: ['/add-work', '/show-work', '/signup', '/login', '/api/work:path*'],
 };

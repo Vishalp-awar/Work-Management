@@ -146,10 +146,18 @@ import { Work } from "@/models/work";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useUser } from "@/context/userContext"; // Adjust the import path based on your folder structure
+// Add this to the top of your file or in a separate type definitions file
+export interface WorkType {
+    title: string;
+    content: string;
+    addedDate?: Date;
+    status: 'pending' | 'completed' | string ;
+    userid: string | undefined | '';
+}
 
 const AddTask = () => {
     const { user } = useUser(); // Retrieve user context
-    const [task, setTask] = useState<Work>({
+    const [task, setTask] = useState<WorkType>({
         title: '',
         content: '',
         status: 'pending',
@@ -264,7 +272,7 @@ const AddTask = () => {
                         </button>
                         <button
                             type="button"
-                            onClick={() => setTask({ title: '', content: '', status: 'pending', userid: user._id })}
+                            onClick={() => setTask({ title: '', content: '', status: 'pending', userid: user?._id })}
                             className="w-full bg-red-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-red-700 transition duration-200 ease-in-out"
                         >
                             Clear

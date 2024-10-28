@@ -292,7 +292,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 setUser(null); // Clear user state
                 router.push('/');
             } else {
-                console.log("Logout failed:", res.message);
+                console.log("Logout failed:", res);
             }
         } catch (error) {
             console.error("Logout error:", error);

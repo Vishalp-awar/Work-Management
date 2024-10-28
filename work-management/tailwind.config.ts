@@ -12,6 +12,9 @@ const config: Config = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      backgroundImage: {
+        'add-task': "url('/bg.jpg')", // Path is correct if addtask.svg is in public/
+      },
     },
   },
   plugins: [],

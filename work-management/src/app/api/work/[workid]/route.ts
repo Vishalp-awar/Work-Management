@@ -95,6 +95,25 @@ export async function PUT(request: NextRequest, { params }: { params: { workid: 
 }
 
 
-export async function DELETE(request:NextRequest){
-    
+export async function DELETE(request: NextRequest, { params }: { params: { workid: string } }) {
+    const workid = params.workid;  // Capture workid from the dynamic URL segment
+
+    if (!mongoose.Types.ObjectId.isValid(workid)) {
+        return new NextResponse(JSON.stringify({ error: "Invalid work ID" }), { status: 400 });
+    }
+
+    try {
+        await connectDb();  // Ensure database connection
+
+        // Find the work by ID and delete it
+        const deletedWork = await Work.findByIdAndDelete(workid);
+
+        if (!deletedWork) {
+            return new NextResponse(JSON.stringify({ error: "Work not found" }), { status: 404 });
+        }
+
+        return new NextResponse(JSON.stringify({ message: "Work deleted successfully" }), { status: 200 });
+    } catch (error) {
+        return new NextResponse(JSON.stringify({ error: "Error deleting work" }), { status: 500 });
+    }
 }
